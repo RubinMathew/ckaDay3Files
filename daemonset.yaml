@@ -1,0 +1,24 @@
+kind: DaemonSet  
+apiVersion: apps/v1
+metadata:
+  name: my-monitoring-agent
+  # labels:   not mandatory 
+spec:
+  selector: 
+    matchLabels: 
+      app: my-deploy
+  template:   
+    metadata:
+      #name: test
+      labels: 
+        app: my-deploy
+    spec:
+      containers:
+        - name: cont1
+          image: nginx
+          ports:
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443	
+
