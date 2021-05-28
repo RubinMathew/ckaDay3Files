@@ -1,0 +1,31 @@
+kind: Deployment 
+apiVersion: apps/v1
+metadata:
+  name: deployment-cka
+  # labels:   not mandatory 
+spec:
+  replicas: 10
+  minReadySeconds: 45
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 2
+  selector: 
+    matchLabels: 
+      role: app
+  template:   
+    metadata:
+      #name: test
+      labels: 
+        role: app
+    spec:
+      containers:
+        - name: cont-1-deployment
+          image: nginx:1.20
+          ports:
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443
+
