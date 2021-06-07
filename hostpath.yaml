@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata: 
+  name: hostpath-volume-deployment 
+spec:
+  replicas: 3
+  selector: 
+    matchLabels:
+      type: hostpath-volume-pod
+  template:
+    metadata:
+      labels:
+        type: hostpath-volume-pod
+    spec:
+      volumes:
+       - name: hp-vol     #defining volumes for all pods
+         hostPath:
+          path: /mydataonvm
+      containers:
+       - name: cont1 
+         image: httpd			#tomcat
+         ports:
+           - name: http 
+             containerPort: 80
+         volumeMounts:
+          - name: hp-vol    #mounting the volume
+            mountPath: /insidecont
+
