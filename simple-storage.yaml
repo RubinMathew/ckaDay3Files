@@ -1,0 +1,41 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata: 
+  name: simple-volume-deployment 
+spec:
+  replicas: 4
+  selector: 
+    matchLabels:
+      type: simple-volume-pod
+  template:			#defining pod
+    metadata:
+      labels:
+        type: simple-volume-pod
+    spec:
+      volumes:			#defining pod specific storage 
+       - name: demo-volume     
+         emptyDir: {}		#indicate this is a simplestorage
+      containers:
+       - name: cont1 
+         image: httpd
+         ports:
+           - name: http 
+             containerPort: 80
+         volumeMounts:		#mounting the container with demo-volume     
+          - name: demo-volume      	 
+            mountPath: /edrive
+       - name: cont2 
+         image: lforlinux/sampleapp:v1
+         ports:
+           - name: http 
+             containerPort: 8080
+         volumeMounts: 
+          - name: demo-volume
+            mountPath: /fdrive
+       - name: cont3
+         image: alpine
+         command: ["sh", "-c", "sleep 3600"]
+         volumeMounts:
+          - name: demo-volume
+            mountPath: /gdrive
+
