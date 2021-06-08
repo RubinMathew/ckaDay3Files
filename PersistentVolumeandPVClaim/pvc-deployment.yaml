@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata: 
+  name: pvc-deployment 
+spec:
+  replicas: 3
+  selector: 
+    matchLabels:
+      type: pvcapp
+  template:
+    metadata:
+      labels:
+        type: pvcapp 
+    spec:
+      volumes:
+       - name: pvcvol
+         persistentVolumeClaim:
+           claimName: pv1-pvc 		#this should be the name of your pvc that is to be claimed
+      containers:
+       - name: cont1 
+         image: httpd
+         ports:
+           - name: http 
+             containerPort: 80
+         volumeMounts:
+          - name: pvcvol
+            mountPath: /insidecont-pvcdata
+

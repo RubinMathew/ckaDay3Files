@@ -1,0 +1,14 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata: 
+  name: pv1-pvc
+  labels: 
+    type: local #identification 
+spec:
+  volumeName: my-pv  #must be the pv name that you want to claim 
+  resources:
+    requests: 
+     storage: 2Gi  		# it should be less than or equal to what you specified in my-pv  
+  accessModes: 
+   - ReadWriteMany	 # ReadOnlyMany / ReadWriteMany the number of nodes that can write the data to volume
+
