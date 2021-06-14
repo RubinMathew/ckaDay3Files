@@ -1,0 +1,13 @@
+#autoacalling for cpu
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-nginx
+spec:
+  scaleTargetRef:        #here you have to specify the info of the deployment that need to be scaled
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx
+  minReplicas: 3                        #desired number of pods
+  maxReplicas: 10               #maximun number of pods while scaling
+  targetCPUUtilizationPercentage: 10 #if the utilization increases, the hpa will scale the pods
